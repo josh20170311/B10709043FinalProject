@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 String id = (String)viewHolder.itemView.getTag();
-                cr.delete(Uri.parse("content://"+MyContract.AUTHORITY+"/location"),null,new String[]{id});
+                cr.delete(Uri.parse("content://"+MyContract.AUTHORITY+"/locations/"+id),null,new String[]{id});
                 System.out.println(id);
                 ad.refresh();
             }
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         cv.put("latitude",et_latitude.getText().toString());
         cv.put("name",et_name.getText().toString());
         Uri returnUri = this.cr.insert(uri, cv);
-        System.out.println(returnUri.toString());
+
         this.ad.refresh();
         Toast.makeText(getApplicationContext(), returnUri.toString(), Toast.LENGTH_SHORT).show();
     }

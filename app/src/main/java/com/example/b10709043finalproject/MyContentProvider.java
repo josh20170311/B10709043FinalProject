@@ -27,7 +27,8 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         int match = uriMatcher.match(uri);
-        System.out.println("my output : query");
+        System.out.println("query");
+        System.out.println(uri);
         SQLiteDatabase db = myDBHelper.getReadableDatabase();
         Cursor cursor ;
         switch (match){
@@ -88,16 +89,29 @@ public class MyContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        SQLiteDatabase db = myDBHelper.getWritableDatabase();
         System.out.println("insert");
-        return Uri.withAppendedPath(uri, db.insert("location",null,values)+"");
+        int match = uriMatcher.match(uri);
+        System.out.println(uri);
+        switch (match){
+            case LOCATION:
+                SQLiteDatabase db = myDBHelper.getWritableDatabase();
+                return Uri.withAppendedPath(uri, db.insert("location",null,values)+"");
+        }
+        return null;
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        SQLiteDatabase db = myDBHelper.getWritableDatabase();
+        int match = uriMatcher.match(uri);
         System.out.println("delete");
-        return db.delete("location", "_id = ?",selectionArgs);
+        System.out.println(uri);
+        switch (match){
+            case LOCATION_WITH_ID:
+                String id = uri.getLastPathSegment();
+                SQLiteDatabase db = myDBHelper.getWritableDatabase();
+                return db.delete("location", "_id = ?",new String[]{id});
+        }
+        return -1;
     }
 
     @Override
