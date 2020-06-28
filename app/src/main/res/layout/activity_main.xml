@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:autofillHints="Longitude"
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal|numberSigned"
             tools:ignore="LabelFor" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:autofillHints="Latitude"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             tools:ignore="LabelFor" />
     </LinearLayout>
 
